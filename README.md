@@ -1,4 +1,4 @@
-# 🔷 Stock Screener — Fundamental Analysis
+# 🔷 Stock Screener
 > Filter stocks based on key fundamental metrics to identify investment opportunities
 
 A Python-based stock screener that pulls real-time fundamental data for a list of tickers and filters them against customizable criteria — automating the first layer of any equity research process.
@@ -94,3 +94,4 @@ pip install -r requirements.txt
 
 
 *Built by [Lucas Marangoni](https://www.linkedin.com/in/lbm-marangoni) — Economics student at FAAP | Quant Finance & Portfolio Management*
+
