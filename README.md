@@ -1,98 +1,217 @@
-# 🔷 Stock Screener — Fundamental Analysis
-> Filter stocks based on key fundamental metrics to identify investment opportunities
+# Equity Screening Utility
 
-A Python-based stock screener that pulls real-time fundamental data for a list of tickers and filters them against customizable criteria — automating the first layer of any equity research process.
+A lightweight Python tool for filtering a universe of stocks using selected valuation, profitability and leverage metrics as an initial step in the equity research process.
 
----
-
-## 📌 What It Does
-
-1. **Data Extraction** — Fetches key fundamental metrics for any list of tickers via `yfinance`: P/E, Forward P/E, PEG Ratio, ROE, Dividend Yield, Debt/Equity, 52-week range
-2. **Screening** — Applies user-defined filters to identify stocks that meet specific investment criteria
-3. **Output** — Returns a clean, ranked DataFrame with only the stocks that pass the screen
+The project is intentionally simple: its purpose is not to produce an investment recommendation, but to reduce a broad list of companies into a smaller set that may deserve deeper fundamental research.
 
 ---
 
-## 💡 Why I Built This
+## Why I Built It
 
-Manually checking fundamentals stock by stock is slow and inconsistent. This screener automates the filtering layer — letting you scan a broad universe of stocks and surface only the ones worth researching further. It's the starting point before any deep-dive valuation.
+Equity research often begins with a large universe of companies.
+
+Reviewing every company manually is inefficient, so this project was built to automate the first screening layer and help answer a narrower question:
+
+> Which companies meet a selected set of financial criteria and may be worth researching further?
+
+The screener is therefore used as a **research filter**, not as a substitute for fundamental analysis, valuation or investment judgment.
 
 ---
 
-## ⚙️ How It Works
+## Research Workflow
+
+```text
+Stock Universe
+     ↓
+Financial Data
+     ↓
+Initial Screening
+     ↓
+Shortlist
+     ↓
+Fundamental Research
+     ↓
+Valuation
+     ↓
+Investment Thesis
+```
+
+The project operates only in the first stages of this process.
+
+A company passing the screen should not be interpreted as an investment opportunity by itself.
+
+---
+
+## Metrics
+
+The current version retrieves selected metrics through `yfinance`, including:
+
+| Metric | Purpose |
+|---|---|
+| P/E | Basic valuation reference |
+| Forward P/E | Forward-looking valuation reference |
+| PEG Ratio | Valuation relative to expected growth |
+| ROE | Profitability |
+| Dividend Yield | Shareholder distribution reference |
+| Debt / Equity | Leverage |
+| Market Capitalization | Company size |
+| 52-Week High / Low | Price context |
+
+The criteria can be changed according to the research objective.
+
+---
+
+## Example
 
 ```python
-tickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META', 'TSLA', 'NVDA', 'JPM', 'V', 'WMT']
+tickers = [
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "AMZN",
+    "META",
+    "TSLA",
+    "NVDA",
+    "JPM",
+    "V",
+    "WMT"
+]
 
-# Screen each stock and collect metrics
 results = [screen_stock(ticker) for ticker in tickers]
 df = pd.DataFrame(results)
 
-# Apply criteria: P/E < 30, Dividend Yield > 1%, ROE > 15%
 screened = df[
-    (df['P/E Ratio'] < 30) &
-    (df['P/E Ratio'] > 0) &
-    (df['Dividend Yield'] > 1) &
-    (df['ROE'] > 15)
+    (df["P/E Ratio"] < 30) &
+    (df["P/E Ratio"] > 0) &
+    (df["Dividend Yield"] > 1) &
+    (df["ROE"] > 15)
 ]
 ```
 
-Criteria are fully customizable — adjust the thresholds to match any investment strategy.
+The thresholds above are only an example.
+
+Different sectors, market environments and investment strategies require different screening criteria.
 
 ---
 
-## 📊 Metrics Extracted
+## What the Project Does
 
-| Metric | Description |
-|---|---|
-| P/E Ratio | Trailing price-to-earnings |
-| Forward P/E | Forward-looking P/E estimate |
-| PEG Ratio | P/E adjusted for growth |
-| Dividend Yield | Annual dividend as % of price |
-| ROE | Return on equity (%) |
-| Debt/Equity | Leverage indicator |
-| 52W High/Low | Price range over last 52 weeks |
+The workflow consists of three main steps:
 
----
+**1. Data collection**
 
-## 🛠️ Tech Stack
+Retrieves selected fundamental and market metrics for each ticker.
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
-![yFinance](https://img.shields.io/badge/yFinance-6C63FF?style=for-the-badge&logo=yahoo&logoColor=white)
-![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
+**2. Screening**
+
+Applies user-defined conditions to the dataset.
+
+**3. Shortlisting**
+
+Returns the companies that meet the selected criteria for further research.
 
 ---
 
-## 📁 Project Structure
+## Technology
 
-```
-📁 stock-screener
+- Python
+- Pandas
+- yFinance
+- Jupyter Notebook
+
+Technology is used here as a simple research tool rather than as the investment thesis itself.
+
+---
+
+## Project Structure
+
+```text
+stock-screener/
 ├── README.md
 ├── requirements.txt
-└── screener.ipynb      ← main notebook
+└── Stock Screener.ipynb
 ```
 
 ---
 
-## 🚀 How to Run
+## Running the Project
 
-1. Clone the repository
+Clone the repository:
+
 ```bash
 git clone https://github.com/lbm-marangoni/stock-screener
 cd stock-screener
 ```
 
-2. Install dependencies
+Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Run the notebook `screener.ipynb` and edit the `tickers` list and screening criteria as needed
+Then run:
+
+```text
+Stock Screener.ipynb
+```
+
+Edit the ticker universe and screening criteria according to the research objective.
 
 ---
 
+## Limitations
 
-*Built by [Lucas Marangoni](https://www.linkedin.com/in/lbm-marangoni) — Economics student at FAAP | Quant Finance & Portfolio Management*
+This project is intentionally a first-stage screening utility.
 
+Its current limitations include:
 
+- dependence on third-party data from `yfinance`
+- limited accounting normalization
+- no sector-specific screening logic
+- no historical fundamental database
+- no valuation model
+- no qualitative company analysis
+- no investment recommendation
+
+These limitations are important because financial ratios should be interpreted in context rather than used mechanically.
+
+---
+
+## Role in My Investment Process
+
+This project represents the **idea-generation / filtering layer** of a broader investment research process.
+
+It complements deeper work focused on:
+
+- financial statement analysis
+- business and industry analysis
+- valuation
+- investment thesis development
+- portfolio context
+- monitoring and review
+
+For a broader example of how I structure those different stages, see:
+
+**[SBWAA — Investment Research & Portfolio Decision-Support System](https://github.com/lbm-marangoni/sbwaa)**
+
+---
+
+## Author
+
+**Lucas Marangoni**
+
+Economics @ FAAP  
+Performance & Insights @ Bradesco  
+Research @ FAAP Finance
+
+Asset Management • Equity Research • Investment Analysis
+
+[LinkedIn](https://www.linkedin.com/in/lbm-marangoni)
+
+---
+
+## Disclaimer
+
+This repository is an educational and research project.
+
+The outputs of the screener should not be interpreted as investment recommendations or financial advice.
